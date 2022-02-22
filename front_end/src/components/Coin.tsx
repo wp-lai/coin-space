@@ -18,7 +18,7 @@ export default function Coin({ name, symbol, submitter, index }: Props) {
   const { account } = useEthers()
 
   return (
-    <Box height={350} width={380} shadow="md" borderWidth="1px" bg="blue.800" borderRadius="md">
+    <Box height={350} width={350} shadow="md" borderWidth="1px" bg="blue.800" borderRadius="md">
       <Table variant="simple" color="white">
         <Thead>
           <Tr height={160}>
