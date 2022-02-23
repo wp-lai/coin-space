@@ -3,11 +3,11 @@
 [`CoinSpace`](https://coin-space.vercel.app/) is a DApp where you can
 
 - recommend your favorite coins to others
-- and tip others for having recommended a good coin.
+- tip others for having recommended a good coin.
 
 [Smart contract](./contract) of `CoinSpace` was developed using `HardHat`, and deployed to Rinkeby testnet.
 
-[Front end](./front_end) of `CoinSpace` was developed using `Next.js`, `Chakra-ui`, and `Typescript`; and deployed with `Vercel`.
+[Front end](./front_end) of `CoinSpace` was developed using `Typescript`, `Next.js`, `Chakra-ui`, and `useDApp`; and deployed with `Vercel`.
 
 ## How to use
 
@@ -28,21 +28,23 @@ After clicking, a metamask memu will pop out asking for your permission to conne
 
 If your account address showes on the top right corner, you have successfully connected `CoinSpace` with your wallet.
 
-<img src="./img/login3.png" width=50% height=50%>
+<img src="./img/login3.png" width=70% height=70%>
 
 Also you can see your eth balance on the left of your accout. You can see more info by clicking the address.
 
-<img src="./img/login4.png" width=50% height=50%>
+<img src="./img/login4.png" width=70% height=70%>
 
 ### Submit a coin
 
-`CoinSpace` displays all the coins people have recommended. If your favorite coin is not included, you can submit it by entering either the coin name (e.g. bitcoin) or the coin symbol (e.g. btc) in the input area and hitting submit button.
+`CoinSpace` displays all the coins people have recommended. If your favorite coin is not included, you can submit it by entering either the coin id (e.g. bitcoin) or the coin symbol (e.g. btc) in the input area and hitting submit button.
 
-<img src="./img/submit1.png" width=50% height=50%>
+For now, user can only submit coins that listed on [CoinGecko](https://www.coingecko.com)
+
+<img src="./img/submit1.png" width=70% height=70%>
 
 You'll get a notification when other people have submitted a new coin.
 
-<img src="./img/submit2.png" width=50% height=50%>
+<img src="./img/submit2.png" width=70% height=70%>
 
 By the way, `CoinSpace` fetches the current price of coins from CoinGecko.
 
@@ -50,8 +52,8 @@ By the way, `CoinSpace` fetches the current price of coins from CoinGecko.
 
 If you like a coin someone submitted, you can tip she/he by clicking the `Tip` button near the coin name and entering a tip amount.
 
-<img src="./img/tip1.png" width=50% height=50%>
+<img src="./img/tip1.png" width=70% height=70%>
 
 You'll get a notification when receiving a tip from others.
 
-<img src="./img/tip2.png" width=50% height=50%>
+<img src="./img/tip2.png" width=70% height=70%>

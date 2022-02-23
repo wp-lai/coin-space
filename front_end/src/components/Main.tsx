@@ -12,8 +12,8 @@ import Coin from './Coin'
 import SubmitForm from './SubmitForm'
 
 type CoinType = {
+  index: number
   name: string
-  symbol: string
   submitter: string
 }
 
@@ -22,10 +22,9 @@ export default function Main() {
   const coinlist = useGetCoins()
 
   const addContractEventHandlers = () => {
+    const contract = getContract().connect(library)
     if (library && account) {
-      const contract = getContract().connect(library)
-
-      contract.on('CoinSubmitted', async (name, symbol, submitter) => {
+      contract.on('CoinSubmitted', async (_, name, submitter) => {
         if (account && account !== submitter) {
           toast(`${formatAddress(submitter)} submitted a coin ${name}`, {
             icon: '👏',
@@ -43,14 +42,17 @@ export default function Main() {
         }
       })
     }
+    return () => {
+      contract.removeAllListeners()
+    }
   }
-  useEffect(addContractEventHandlers, [!!library, !!account])
+  useEffect(addContractEventHandlers, [!!library, account])
 
   return coinlist ? (
     <>
       {account && (
         <Box pt={10} pb={4}>
-          <SubmitForm coins={coinlist?.map((c: CoinType) => c?.name)} />
+          <SubmitForm coins={coinlist?.map((c: CoinType) => c.name)} />
         </Box>
       )}
       <Center>
@@ -58,17 +60,19 @@ export default function Main() {
           <Box p={4}>
             {coinlist.length > 0 && (
               <>
-                <Heading color="white">People recommended following {coinlist.length > 1 ? 'coins' : 'coin'}:</Heading>
+                <Heading color="white">
+                  People have recommended the following {coinlist.length > 1 ? 'coins' : 'coin'}:
+                </Heading>
                 {account && <Text color="white">You can tip one by clicking the tip button</Text>}
               </>
             )}
           </Box>
           <SimpleGrid columns={[1, 2, 3]} p={4} width="80vw" minChildWidth={380} spacing="10">
             {coinlist ? (
-              coinlist.map(function (coin: CoinType, index: number) {
+              coinlist.map(function (coin: CoinType) {
                 return (
-                  <Box key={index}>
-                    <Coin name={coin.name} symbol={coin.symbol} submitter={coin.submitter} index={index} />
+                  <Box key={coin.index}>
+                    <Coin index={coin.index} name={coin.name} submitter={coin.submitter} />
                   </Box>
                 )
               })

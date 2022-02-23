@@ -8,7 +8,7 @@ type Coin = {
   submitter: string
 }
 
-export default function useGetCoinsByAddress(account: string): string[] {
+export default function useGetCoinNamesByAddress(account: string): string[] {
   const { value, error } =
     useCall({
       contract: getContract(),

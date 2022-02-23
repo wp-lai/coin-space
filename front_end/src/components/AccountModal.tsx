@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 
-import useGetCoinsByAddress from '../hooks/useGetCoinsByAddress'
+import useGetCoinNamesByAddress from '../hooks/useGetCoinNamesByAddress'
 import formatAddress from '../utils/formatAddress'
 import Identicon from './Identicon'
 
@@ -30,7 +30,7 @@ export default function AccountModal({ isOpen, onClose }: Props) {
 
   const { onCopy: onCopyAddress } = useClipboard(account)
 
-  const myCoins = useGetCoinsByAddress(account)
+  const myCoins = useGetCoinNamesByAddress(account)
 
   function handleDeactivateAccount() {
     deactivate()

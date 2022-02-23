@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   Button,
   FormControl,
@@ -28,18 +30,26 @@ type Props = {
 }
 
 export default function TipButton({ index }: Props) {
-  const { send: sendTip } = useContractFunction(getContract(), 'tip')
-
   const { register, handleSubmit } = useForm<FormInput>()
+  const { send: sendTip, state } = useContractFunction(getContract(), 'tipByIndex')
+
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     const amount = ethers.utils.parseEther(`${data.value}`)
-    const txn = sendTip(index, { value: amount })
-    toast.promise(txn, {
-      loading: 'Tipping',
-      success: 'Done',
-      error: 'Error when tipping',
-    })
+    await sendTip(index, { value: amount })
   }
+
+  const displayTipState = () => {
+    if (state.status === 'Exception') {
+      toast.error(state.errorMessage)
+    } else if (state.status === 'Mining') {
+      toast.loading('Tipping...', { id: 'tip' })
+    } else if (state.status === 'Success') {
+      toast.success('Successfully tipped', { id: 'tip' })
+    } else if (state.status === 'Fail') {
+      toast.error('Fail to tip', { id: 'tip' })
+    }
+  }
+  useEffect(displayTipState, [state])
 
   return (
     <Popover>

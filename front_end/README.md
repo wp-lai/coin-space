@@ -1,11 +1,11 @@
 # CoinSpace
 
-The front end of CoinSpace was developed using `Next.js`, `chakra-ui`, & `Typescript`.
+The front-end of CoinSpace was developed using `Typescript`, `Next.js`, `chakra-ui`, & [`useDApp`](https://usedapp.io).
 
-## Run in localhost
+## Local development
 
 `$ yarn dev`
 
 ## Screenshot
 
-![](../img/tip2.png)
+![](../img/screenshot.png)

@@ -20,3 +20,11 @@ with GAS usage info
 Deploy to rinkeby testnet
 
 `$ yarn hardhat run scripts/deploy.ts --network rinkeby`
+
+## Verification
+
+First add `ETHERSCAN_API_KEY` to `.env`, then find deployed address in `data/deployment.json`
+
+Verify the contract:
+
+`$ yarn hardhat verify --network rinkeby ADDRESS`

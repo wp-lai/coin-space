@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { InputGroup, Button, InputRightElement, Container, Input } from '@chakra-ui/react'
 import { useContractFunction } from '@usedapp/core'
 import axios from 'axios'
@@ -16,7 +18,7 @@ type Props = {
 }
 
 export default function SubmitForm({ coins }: Props) {
-  const { send: sendSubmit } = useContractFunction(getContract(), 'submit')
+  const { send: sendSubmit, state } = useContractFunction(getContract(), 'submit')
 
   const {
     register,
@@ -27,7 +29,7 @@ export default function SubmitForm({ coins }: Props) {
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     let coin = data.name.trim().toLowerCase()
 
-    // if it's a symbol, convert it to id
+    // if it's a symbol, convert it to id/name
     coin = coingeckolist.find((o) => o.symbol === coin)?.id || coin.replace(/[\s.]/g, '-')
 
     if (coins.includes(coin)) {
@@ -39,15 +41,8 @@ export default function SubmitForm({ coins }: Props) {
       .get(`https://api.coingecko.com/api/v3/coins/${coin}`)
       .then(async (res) => {
         const name = res.data.id
-        const symbol = res.data.symbol
 
-        const txn = sendSubmit(name, symbol)
-
-        toast.promise(txn, {
-          loading: `Submitting coin ${name}`,
-          success: 'Done',
-          error: `Error when submitting ${name}`,
-        })
+        await sendSubmit(name)
       })
       .catch((err) => {
         console.error(err)
@@ -55,6 +50,19 @@ export default function SubmitForm({ coins }: Props) {
         return
       })
   }
+
+  const displaySubmitState = () => {
+    if (state.status === 'Exception') {
+      toast.error(state.errorMessage)
+    } else if (state.status === 'Mining') {
+      toast.loading('Submitting...', { id: 'submit' })
+    } else if (state.status === 'Success') {
+      toast.success('Successfully submitted', { id: 'submit' })
+    } else if (state.status === 'Fail') {
+      toast.error('Fail to submit', { id: 'submit' })
+    }
+  }
+  useEffect(displaySubmitState, [state])
 
   return (
     <>
